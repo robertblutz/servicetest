@@ -10,12 +10,17 @@ Tests for GET functions:
 Tests for POST functions:
 - POST with a new, description and price, verify output; Follow up and verify that a GET function can be run on the newly created SKU
 - POST to update an existing SKU (change price and description) and verify changes with a GET
-- POST with malformed data (verify error)
+- POST with malformed data (verify error)  Examples: Attempt to use a non-numeric price
+- POST to update an existing SKU with the same data that is already there, verify that the results do not change
 
 Test for DELETE operation:
 - DELETE with a valid SKU ID; verify with a GET that no data is returned for that SKU afterward
 - DELETE with an invalid SKU ID, verify result (TBD)
+- DELETE a SKU ID that's already been previously deleted
+- DELETE a SKU ID, then add it again with a POST
 
 Issues with testing this service:
-- Based on what I have been able to determine so far, SKU names seem to be arbitrary, and the user can quite easily create a SKU with a string that cannot be retrieved with a simple GET command.  I see some previous users of this service have used GUIDs for their SKU IDs, which although it makes retrieving the SKUs easier, it's not exactly readable for humans.
+- Based on what I have been able to determine so far, SKU names seem to be arbitrary, and the user can quite easily create a SKU with a string that cannot be retrieved with a simple GET command.  It looks like most previous users in this service have used GUIDs for SKU IDs which should be relatively easy to retrieve, but not easily human readable.
 - Attempting to use the service with Postman results in authentication token errors.  This might just be my lack of knowledge, but it would be useful to have instructions on where to get an auth token for this.
+- In a real world situation people will want to be able to search by description, which doesn't appear to be possible with the current service.  This would probably be best handled as a separate endpoint, but falls outside the scope of this exercise.
+- There is no good way to prevent duplication of entries, especially since GUIDs are being used as SKUs.  This is where a search by description endpoint would be useful.
